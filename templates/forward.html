@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <script src="/static/jquery-1.8.3.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#receiver").change(function(){
+                var receiver=$("#receiver").val();
+                $.ajax({
+                    url:"{% url 'checkreceivername' %}",
+                    data:{'receiver':receiver},
+                    success:function(data){
+                        if(data.valid!="exist")
+                        {
+                            alert("receiver not exist")
+                            $("#receiver").val();
+                        }
+                    }
+                });
+            });
+        });
+        </script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forward</title>
+</head>
+<body>
+    <form action="{% url 'forwardAction' %}" method="post">
+        {% csrf_token %}
+    <table>
+        {% for f in frwd %}
+        <tr>
+            <td>Receiver Name</td>
+            <td><input type="text" name="receiver" id='receiver'></td>
+        </tr>
+        <tr>
+            <td>Subject</td>
+            <td><input type="text" name="subject" value='{{f.subject}}'></td>
+        </tr>
+        <tr>
+            <td>Message</td>
+            <td><input type="text" name="message" value="{{f.message}}"></td>
+        </tr>
+       {% endfor %}
+       <tr>
+           <td></td>
+           <td><button type="submit">Forward</button></td>
+       </tr>
+    </table>
+</form>
+    
+</body>
+</html>

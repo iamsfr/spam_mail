@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+    <script src="/static/jquery-1.8.3.min.js"></script>
+<script>
+	$(document).ready(function(){
+        $("#country").change(function(){
+        var cid=$("#country").val();
+        $.ajax({
+            url:"{% url 'getstate' %}",
+            data:{'country_id':cid},
+            success:function(data){
+            $("#state").html(data);
+        }
+        })
+        })
+        })
+    
+		$(document).ready(function(){
+            $("#username").change(function(){
+            var username=$("#username").val();
+            $.ajax({
+            url:"{% url 'checkusername' %}",
+            data:{'username':username},
+            success:function(data){
+            if(data.valid=="exist")
+            {
+                alert("username already exist")
+                $("#username").val();
+        }	
+        }	
+        })	
+        })		
+        })
+    </script>
+    
+<script type="text/javascript">
+            function validation()
+            {
+                var alpha=/^[A-Z a-z]+$/;
+                var num=/^[0-9]+$/;
+    
+            var name=document.getElementById("name");
+            var address=document.getElementById("address");
+            var gender=document.myform.gender;
+            var phonenumber=document.getElementById("phone");
+            var dob=document.getElementById("dob");
+            var country=document.getElementById("country");
+            var state=document.getElementById("state");
+            var hobbie=document.getElementById("hobbie");
+            var answer=document.getElementById("answer");
+            var username=document.getElementById("username");
+            var password=document.getElementById("password");
+            
+            if(name.value.length==0)
+                {
+                alert("Enter valid name")
+                return false;
+                }
+            else if(!name.value.match(alpha))
+                {
+                alert("invalid")
+                name.focus();
+                return false;
+                }
+            else if(address.value.length==0)
+                {
+                alert("enter valid address")
+                return false;
+                }
+            else if(!address.value.match(alpha))
+                {
+                alert("invalid")
+                address.focus();
+                return false
+                }
+            else if(gender[0].checked==false && gender[1].checked==false)
+                {
+                alert("choose gender")
+                return false;
+                }
+            else if(phonenumber.value.length==0)
+                {
+                alert("enter valid phonenumber")
+                phonenumber.focus();
+                return false;
+                }
+            else if(!phonenumber.value.match(num))
+                {
+                alert("invalid")
+                
+                return false;	
+                }
+            else if(dob.value.length==0)
+                {
+                alert("enter valid dob")
+                return false;
+                }
+            else if(country.value.length==0)
+                {
+                    alert('enter valid country')
+                    return false;
+                }
+            else if(state.value.length==0)
+                {
+                    alert('enter valid state')
+                    return false;
+                }
+            else if(hobbie.value.length==0)
+                {
+                    alert('enter valid hobbie')
+                    return false;
+                }
+            
+            else if(username.value.length==0)
+                {
+                alert("enter valid username")
+                return false;
+                }
+            else if(!username.value.match(alpha))
+                {
+                alert("invalid username")
+                username.focus();
+                return false;
+                }
+            else if(password.value.length==0)
+                {
+                alert("enter password")
+                password.focus();
+                return false;
+                }
+            else if(answer.value.length==0)
+                {
+                    alert('enter valid answer')
+                    return false;
+                }
+            else{
+                return true;
+                }		
+                
+                        
+        }
+ </script>
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+      body{
+        font-family:Verdana, Geneva, Tahoma, sans-serif; 
+      }
+      a{
+        text-decoration: none;
+      }
+      #nav{
+          font-family: monospace;
+      }
+      
+    </style>
+</head>
+<body>
+<!-- Navbar -->
+
+<div id="nav" class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Spam Mail</a>
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'index' %}">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Contact Us</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+        </li>
+        
+    </ul>
+</div>
+<!-- End Navbar -->
+
+<div class="container w-50 mt-3">
+    <div class="col-lg-12 col-md-6 col-sm-12">
+    <form action="{% url 'registerAction' %}" method="post" name='myform'>
+        {% csrf_token %}
+    <table>
+        <tr>
+        <td>Name</td>
+        <td><input class="form-control" type="text" name="name" id='name' ></td>
+        </tr>
+        <tr>
+        <td>Address</td>
+        <td><input class="form-control" type="text" name="address" id='address' ></td>
+        </tr>
+        <tr>
+            <td>dob</td>
+            <td><input class="form-control" type="date" name="dob" id='dob' ></td>
+        </tr>
+        <tr>
+            <td>Country</td>
+            <td><select class="form-control" name="country" id="country">
+                <option value="">--select--</option>
+                {% for c in country %}
+                    <option value="{{c.id}}">{{c.name}}</option>
+                    {{ c.name }}
+                {% endfor %}
+            </select></td>
+        </tr>
+        
+            <td>State</td>
+            <td><select class="form-control" name="state" id="state">
+                <option value="">--select--</option>
+            </select></td>
+         </tr>
+        <tr>
+            <td>Gender</td>
+            <td>
+                <div class="form-check form-check-inline  m-1">
+                    <input type="radio" class="form-check-input" name="gender" value="male" id="">
+                    <label class="form-check-label">MALE</label>
+                </div>
+                <div class="form-check form-check-inline  m-1">
+                    <input type="radio" class="form-check-input" name="gender" value="female" id="">
+                    <label class="form-check-label">FEMALE</label>
+                </div>
+                
+            </td>
+            <!-- <td><input  type='radio' name='gender'  value='male'>Male
+            <input  type='radio' name='gender' value='female'>Female </td> -->
+        </tr>
+        
+        <tr>
+            <td>Hobbies</td>
+            {% for v in hobbie1 %}
+            <td>
+                <div class="form-check form-check-inline  m-1">
+                    <input type="checkbox" class="form-check-input" name="hobbie" value="{{v.id}}" id="">
+                    <label class="form-check-label">{{v.name}}</label>
+                </div>
+            </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>Phone</td>
+            <td><input class="form-control" type="text" name="phone" id='phone' ></td>
+        </tr>
+        <tr>
+            <td>Username</td>
+            <td><input class="form-control" type="text" name="username" id='username' >@mymail.com</td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td><input class="form-control" type="password" name="password" id='password'></td>
+        </tr>
+        <tr>
+            <td>Security Question</td>
+            <td>
+                <select class="form-control" name="question">
+                <option value="">--select--</option>
+                <option value="What is Your Pet Name?">What is Your Pet Name?</option>
+                <option value="Fav movie star?">Fav movie star?</option>
+            </select>
+        </td>
+        </tr>
+       <tr>
+            <td>Answer</td>
+            <td><input class="form-control" type="text" name="answer" id='answer' ></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input class="btn btn-primary mt-1" type="submit" value="submit" onclick="return validation()"></td>
+        </tr>
+            
+    </table>
+    </form>
+</div>
+</div>
+    <!-- Footer -->
+<div style="background-color:rgb(0, 0, 0); color: whitesmoke; font-size: large;" class="fixed-bottom text-center p-1">
+    <footer>Copyright @ iamsfr 2022</footer>
+  </div>
+  
+
+</body>
+{% if messages %}
+	{% for msg in messages %}
+		<script>
+			alert('{{msg}}')
+		</script>
+	{% endfor %}
+{% endif %}
+</html>

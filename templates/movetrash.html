@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+      body{
+        font-family:Verdana, Geneva, Tahoma, sans-serif; 
+        background-color: E8E9EB;
+      }
+      a{
+        text-decoration: none;
+      }
+      th{
+          margin: 10px;
+      }
+      
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+<div class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Spam Mail</a>
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'userhome' %}">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Contact Us</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+        </li>
+        
+    </ul>
+</div>
+<!-- End Navbar -->
+
+    
+    <table class="table table table-hover table-striped table-bordered">
+        <tr>
+            
+            <th>subject</th>
+            <th>Message</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>senderid</th>
+        </tr>
+        {% for t in trash %}
+        <tr>
+        
+            <td>{{t.message.subject}}</td>
+            <td>{{t.message.message}}</td>
+            <td>{{t.date}}</td>
+            <td>{{t.time}}</td>
+            <td>{{t.message.senderid.username}}</td>
+            <td><a href="{% url 'delete1' t.id %}">Delete</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <!-- Footer -->
+<div style="background-color:rgb(0, 0, 0); color: whitesmoke; font-size: large;" class="fixed-bottom text-center p-3">
+    <footer>Copyright @ iamsfr 2022</footer>
+  </div>
+</body>
+</html>
